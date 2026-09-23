@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="560" viewBox="0 0 900 560">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#c9b6ff"/><stop offset="1" stop-color="#f3e8ff"/></linearGradient>
+  </defs>
+  <rect width="900" height="560" fill="url(#bg)"/>
+  <rect x="160" y="120" width="580" height="320" rx="24" fill="#ffffff"/>
+  <circle cx="450" cy="210" r="42" fill="none" stroke="#22c55e" stroke-width="8"/>
+  <path d="M430 210 l14 14 28-32" fill="none" stroke="#22c55e" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="450" y="290" text-anchor="middle" font-family="Georgia,serif" font-size="32" font-weight="700" fill="#111">Application received!</text>
+  <text x="450" y="330" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" fill="#666">We'll be in touch soon.</text>
+</svg>

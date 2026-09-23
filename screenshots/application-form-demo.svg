@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="980" viewBox="0 0 720 980">
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#efe7ff"/><stop offset="1" stop-color="#f7f1ff"/></linearGradient>
+  </defs>
+  <rect width="720" height="980" fill="url(#bg)"/>
+  <rect x="70" y="40" width="580" height="900" rx="28" fill="#ffffff" stroke="#eadfff"/>
+  <circle cx="360" cy="110" r="32" fill="#7c3aed"/>
+  <text x="360" y="180" text-anchor="middle" font-family="Georgia,serif" font-size="32" font-weight="700" fill="#111">Join Our Team</text>
+  <text x="360" y="210" text-anchor="middle" font-family="Arial,sans-serif" font-size="14" fill="#666">Fill in your details and upload your resume.</text>
+  <g font-family="Arial,sans-serif" font-size="14" fill="#333">
+    <text x="120" y="270">Full name</text>
+    <rect x="120" y="280" width="480" height="48" rx="12" fill="#fafafa" stroke="#e5e5e5"/>
+    <text x="140" y="310" fill="#555">Jane Doe</text>
+    <text x="120" y="360">Email address</text>
+    <rect x="120" y="370" width="480" height="48" rx="12" fill="#fafafa" stroke="#e5e5e5"/>
+    <text x="140" y="400" fill="#555">jane@example.com</text>
+    <text x="120" y="450">Phone number</text>
+    <rect x="120" y="460" width="120" height="48" rx="12" fill="#fafafa" stroke="#e5e5e5"/>
+    <text x="140" y="490" fill="#555">GB +44</text>
+    <rect x="250" y="460" width="350" height="48" rx="12" fill="#fafafa" stroke="#e5e5e5"/>
+    <text x="270" y="490" fill="#555">5551234567</text>
+    <text x="120" y="540">Resume</text>
+    <rect x="120" y="550" width="480" height="140" rx="16" fill="#fcfbff" stroke="#d8c8ff" stroke-dasharray="6 6"/>
+    <text x="360" y="615" text-anchor="middle" fill="#444">Drag &amp; drop your resume or click to browse</text>
+    <text x="360" y="640" text-anchor="middle" font-size="12" fill="#888">PDF, DOC or DOCX, up to 5 MB</text>
+    <rect x="120" y="720" width="480" height="54" rx="16" fill="#7c3aed"/>
+    <text x="360" y="754" text-anchor="middle" font-size="18" fill="#fff">Apply</text>
+  </g>
+</svg>

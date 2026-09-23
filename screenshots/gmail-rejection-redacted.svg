@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="640" viewBox="0 0 1100 640">
+  <rect width="1100" height="640" fill="#ffffff"/>
+  <rect width="1100" height="56" fill="#f6f8fc"/>
+  <text x="40" y="36" font-family="Arial,sans-serif" font-size="22" fill="#202124">Update On your resume</text>
+  <circle cx="56" cy="110" r="22" fill="#ea4335"/>
+  <text x="56" y="116" text-anchor="middle" font-family="Arial,sans-serif" font-size="16" fill="#fff">R</text>
+  <text x="92" y="104" font-family="Arial,sans-serif" font-size="16" fill="#202124">Recruitment Team</text>
+  <text x="92" y="126" font-family="Arial,sans-serif" font-size="13" fill="#5f6368">to jane@example.com</text>
+  <g font-family="Georgia,serif" font-size="18" fill="#202124">
+    <text x="56" y="200">Hi Jane Doe,</text>
+    <text x="56" y="250">Thank you for your interest and for taking the time to apply. After reviewing</text>
+    <text x="56" y="278">your resume, we will not be moving forward with your application at this time.</text>
+    <text x="56" y="326">We appreciate your effort and encourage you to apply again for future</text>
+    <text x="56" y="354">openings that match your profile.</text>
+    <text x="56" y="402">Best regards,</text>
+    <text x="56" y="430">Recruitment Team</text>
+  </g>
+  <rect x="56" y="500" width="90" height="36" rx="18" fill="none" stroke="#dadce0"/>
+  <text x="101" y="524" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#3c4043">Reply</text>
+  <rect x="160" y="500" width="110" height="36" rx="18" fill="none" stroke="#dadce0"/>
+  <text x="215" y="524" text-anchor="middle" font-family="Arial,sans-serif" font-size="13" fill="#3c4043">Forward</text>
+</svg>
