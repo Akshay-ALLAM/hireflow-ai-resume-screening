@@ -10,7 +10,7 @@ This portfolio project shows how a hiring team can collect a resume from a web f
 
 ![HireFlow AI resume screening demo](demo/hireflow-ai-demo-redacted.svg)
 
-The demo cycles through the live recording: form submit, application received, and the n8n workflow executing.
+The demo cycles through the live recording stages: form submit (PII covered), application received, n8n workflow executing, and the Gmail candidate email.
 
 ## What It Does
 
@@ -39,6 +39,17 @@ It is useful for:
 ## Workflow Overview
 
 ![n8n workflow canvas](screenshots/n8n-workflow-canvas.svg)
+
+```mermaid
+flowchart LR
+    A[Application form] --> B[Webhook]
+    B --> C[Extract PDF text]
+    C --> D[OpenRouter AI agent]
+    D --> E[Parse score]
+    E --> F{Score >= 80?}
+    F -- Yes --> G[Gmail shortlist]
+    F -- No --> H[Gmail rejection]
+```
 
 ## Public-Safe Architecture
 
@@ -143,7 +154,6 @@ This public repository is sanitized for portfolio use:
 - Webhook path and webhook ID are replaced with placeholders.
 - n8n instance IDs are removed.
 - Screenshots use fabricated names and emails.
-- The demo recording covers personal form fields.
 
 More detail is available in [docs/SECURITY.md](docs/SECURITY.md).
 

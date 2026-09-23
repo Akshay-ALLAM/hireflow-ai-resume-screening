@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="420" viewBox="0 0 960 420">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f7f3ea"/>
+      <stop offset="1" stop-color="#ece4d4"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="420" fill="url(#bg)"/>
+  <text x="40" y="40" font-family="Georgia, serif" font-size="24" fill="#222">HireFlow AI — redacted live demo</text>
+  <text x="40" y="64" font-family="ui-sans-serif, system-ui" font-size="13" fill="#666">Personal name, email, and phone are covered. Cycle: form → received → n8n run → Gmail.</text>
+  <g id="f1" opacity="1">
+    <rect x="40" y="90" width="880" height="280" rx="18" fill="#fff"/>
+    <rect x="40" y="90" width="8" height="280" fill="#c9a227"/>
+    <text x="70" y="130" font-family="ui-sans-serif, system-ui" font-size="18" font-weight="700">1 · Application form</text>
+    <text x="70" y="160" font-family="ui-sans-serif, system-ui" font-size="14" fill="#555">Candidate submits name, email, phone, and a PDF resume.</text>
+    <rect x="70" y="185" width="220" height="28" rx="6" fill="#ececec"/>
+    <text x="82" y="204" font-family="ui-sans-serif, system-ui" font-size="12" fill="#888">Name ████████</text>
+    <rect x="70" y="225" width="280" height="28" rx="6" fill="#ececec"/>
+    <text x="82" y="244" font-family="ui-sans-serif, system-ui" font-size="12" fill="#888">Email ████████████</text>
+    <rect x="70" y="265" width="200" height="28" rx="6" fill="#ececec"/>
+    <text x="82" y="284" font-family="ui-sans-serif, system-ui" font-size="12" fill="#888">Phone ████████</text>
+    <rect x="70" y="310" width="160" height="34" rx="8" fill="#1a1a1a"/>
+    <text x="150" y="332" text-anchor="middle" font-family="ui-sans-serif, system-ui" font-size="13" fill="#fff">Submit application</text>
+    <animate attributeName="opacity" values="1;1;0;0;0;0;1" keyTimes="0;0.22;0.25;0.75;0.97;0.99;1" dur="10s" repeatCount="indefinite"/>
+  </g>
+  <g id="f2" opacity="0">
+    <rect x="40" y="90" width="880" height="280" rx="18" fill="#fff"/>
+    <rect x="40" y="90" width="8" height="280" fill="#2f6f4a"/>
+    <text x="70" y="140" font-family="ui-sans-serif, system-ui" font-size="18" font-weight="700">2 · Application received</text>
+    <text x="70" y="180" font-family="ui-sans-serif, system-ui" font-size="28" fill="#2f6f4a">Thank you. Your application was received.</text>
+    <text x="70" y="220" font-family="ui-sans-serif, system-ui" font-size="14" fill="#555">The form POST hits the n8n webhook with the uploaded PDF.</text>
+    <animate attributeName="opacity" values="0;0;1;1;0;0;0" keyTimes="0;0.22;0.25;0.47;0.50;0.97;1" dur="10s" repeatCount="indefinite"/>
+  </g>
+  <g id="f3" opacity="0">
+    <rect x="40" y="90" width="880" height="280" rx="18" fill="#fff"/>
+    <rect x="40" y="90" width="8" height="280" fill="#7a5af8"/>
+    <text x="70" y="140" font-family="ui-sans-serif, system-ui" font-size="18" font-weight="700">3 · n8n workflow executing</text>
+    <text x="70" y="185" font-family="ui-sans-serif, system-ui" font-size="15">Webhook → Extract Resume Text → Resume Screening Agent</text>
+    <text x="70" y="215" font-family="ui-sans-serif, system-ui" font-size="15">Parse Score &amp; Decision → IF score ≥ 80</text>
+    <text x="70" y="255" font-family="ui-sans-serif, system-ui" font-size="14" fill="#555">OpenRouter returns structured JSON. The IF node routes shortlist or rejection.</text>
+    <animate attributeName="opacity" values="0;0;0;1;1;0;0" keyTimes="0;0.47;0.50;0.72;0.75;0.97;1" dur="10s" repeatCount="indefinite"/>
+  </g>
+  <g id="f4" opacity="0">
+    <rect x="40" y="90" width="880" height="280" rx="18" fill="#fff"/>
+    <rect x="40" y="90" width="8" height="280" fill="#8a3b2a"/>
+    <text x="70" y="140" font-family="ui-sans-serif, system-ui" font-size="18" font-weight="700">4 · Gmail candidate email</text>
+    <text x="70" y="180" font-family="ui-sans-serif, system-ui" font-size="14" fill="#555">To: applicant@example.com</text>
+    <text x="70" y="210" font-family="ui-sans-serif, system-ui" font-size="16" font-weight="700">Subject: Update on your application</text>
+    <text x="70" y="250" font-family="ui-sans-serif, system-ui" font-size="14">Automatic shortlist or rejection message is sent from Gmail.</text>
+    <text x="70" y="280" font-family="ui-sans-serif, system-ui" font-size="13" fill="#888">Personal details redacted for the public portfolio.</text>
+    <animate attributeName="opacity" values="0;0;0;0;1;1;0" keyTimes="0;0.72;0.75;0.97;0.99;0.995;1" dur="10s" repeatCount="indefinite"/>
+  </g>
+</svg>
