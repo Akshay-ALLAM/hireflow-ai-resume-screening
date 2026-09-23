@@ -8,9 +8,9 @@ This portfolio project shows how a hiring team can collect a resume from a web f
 
 ## Demo
 
-![HireFlow AI resume screening demo](demo/hireflow-ai-demo-redacted.gif)
+![HireFlow AI resume screening demo](demo/hireflow-ai-demo-redacted.svg)
 
-The demo shows the application form being submitted, the n8n workflow executing across extract, AI scoring, and routing, and the application-received success state.
+The demo cycles through the live recording: form submit, application received, and the n8n workflow executing.
 
 ## What It Does
 
@@ -99,7 +99,7 @@ The repository includes fabricated/test files:
 ```text
 .
 |-- demo/
-|   `-- hireflow-ai-demo-redacted.gif
+|   `-- hireflow-ai-demo-redacted.svg
 |-- docs/
 |   |-- SECURITY.md
 |   `-- SETUP.md
@@ -143,6 +143,7 @@ This public repository is sanitized for portfolio use:
 - Webhook path and webhook ID are replaced with placeholders.
 - n8n instance IDs are removed.
 - Screenshots use fabricated names and emails.
+- The demo recording covers personal form fields.
 
 More detail is available in [docs/SECURITY.md](docs/SECURITY.md).
 
