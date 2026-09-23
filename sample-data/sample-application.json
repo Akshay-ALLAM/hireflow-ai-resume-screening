@@ -1,0 +1,7 @@
+{
+  "name": "Jane Doe",
+  "email": "jane@example.com",
+  "phone": "+44 5551234567",
+  "resume_filename": "jane-doe-resume.pdf",
+  "notes": "Fictional demo payload. The live webhook also receives the resume as a binary file field named resume."
+}

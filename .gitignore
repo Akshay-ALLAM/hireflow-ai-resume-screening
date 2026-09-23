@@ -1,0 +1,42 @@
+# Secrets and local configuration
+.env
+.env.*
+credentials.json
+credentials/
+*.credentials.json
+n8n-credentials*.json
+client_secret*.json
+service-account*.json
+*.pem
+*.key
+
+# Raw/private exports kept for local audit only
+workflow-clipboard-raw.json
+*-raw.json
+gitleaks-report.json
+
+# Local n8n/runtime files
+.n8n/
+n8n-data/
+*.sqlite
+*.sqlite3
+logs/
+*.log
+
+# Dependencies and build outputs
+node_modules/
+dist/
+build/
+.pnpm-store/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+
+# Temporary files
+*.tmp
+*.bak
+~$*
