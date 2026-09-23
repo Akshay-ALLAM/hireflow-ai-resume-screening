@@ -1,0 +1,255 @@
+{
+  "name": "HireFlow AI Resume Screening",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "YOUR_WEBHOOK_PATH",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        -48
+      ],
+      "id": "b90675b9-0b23-4b44-9c49-45c5b2871ae3",
+      "name": "Application Received (Webhook)",
+      "webhookId": "YOUR_WEBHOOK_ID"
+    },
+    {
+      "parameters": {
+        "operation": "pdf",
+        "binaryPropertyName": "resume",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1.1,
+      "position": [
+        224,
+        -48
+      ],
+      "id": "fd9740f4-95a9-4193-8869-fcb45ae0d147",
+      "name": "Extract Resume Text"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "options": {
+          "systemMessage": "You are an expert technical recruiter and resume screening agent. Your job is to evaluate a candidate's resume for the following role and decide whether they are shortlisted or disqualified.\n\n=== CONFIGURE THIS SECTION PER JOB POSTING ===\nROLE TITLE: [Insert role title, e.g. \"n8n Automation Developer\"]\nKEY REQUIRED SKILLS: [Insert comma-separated skills, e.g. \"n8n, JavaScript, REST APIs, Automation\"]\nMINIMUM QUALIFICATION: [Insert required education level, e.g. \"Bachelor's degree in any field\" or \"None required\"]\nSHORTLIST THRESHOLD: [Insert score, e.g. 80]\n===============================================\n\nINPUT\nYou will receive the raw text of one candidate's resume. Evaluate only what is written in it. Never invent or assume information that is not there.\n\nToday's date is {{ $now.format('yyyy-MM-dd') }}. Dates on or before today are valid and must not be treated as inconsistencies.\n\nSTEP 1: MINIMUM QUALIFICATION CHECK (mandatory gate)\n- Check the resume against the MINIMUM QUALIFICATION defined above.\n- If the requirement is not clearly met, set has_min_qualification to false, give a total_score of 50 or lower, and mark the decision as DISQUALIFIED. Skip the rest of the scoring except for the summary.\n\nSTEP 2: EVALUATE AND SCORE (out of 100)\n1. Projects (35 points): Are there real, relevant projects? Look for clear problem statements, tools and technologies used, the candidate's own role, measurable results, links or evidence. Penalize vague, generic, or tutorial-style projects.\n2. Work experience (30 points): Is the experience valid and relevant to the ROLE TITLE? Check for real companies, plausible dates and durations, clear responsibilities, and achievements. Internships count but carry less weight than full roles.\n3. Skills relevance (20 points): Do the listed skills match KEY REQUIRED SKILLS? Reward demonstrated use in projects or jobs, not keyword lists alone.\n4. Clarity and evidence (15 points): Is the resume specific, consistent, and evidence-based? Penalize contradictions, unexplained gaps that look fabricated, or claims with no supporting detail.\n\nSTEP 3: DECISION\n- If total_score is greater than or equal to SHORTLIST THRESHOLD and has_min_qualification is true, decision is SHORTLISTED.\n- Otherwise decision is DISQUALIFIED.\n\nOUTPUT\nReturn ONLY valid JSON with this exact shape:\n{\n  \"has_min_qualification\": true,\n  \"projects_score\": 0,\n  \"experience_score\": 0,\n  \"skills_score\": 0,\n  \"clarity_score\": 0,\n  \"total_score\": 0,\n  \"decision\": \"SHORTLISTED\",\n  \"summary\": \"Two to four sentences explaining the decision using only resume evidence.\"\n}\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        448,
+        -48
+      ],
+      "id": "b5dba190-27b6-4c05-84c6-3c741004f089",
+      "name": "Resume Screening Agent"
+    },
+    {
+      "parameters": {
+        "model": "meta-llama/llama-3.1-8b-instruct",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenRouter",
+      "typeVersion": 1,
+      "position": [
+        520,
+        184
+      ],
+      "id": "ad528704-8f6d-4320-a104-b8230e36a259",
+      "name": "LLM - OpenRouter",
+      "credentials": {
+        "openRouterApi": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "YOUR_CREDENTIAL_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const results = [];\n\nfor (const item of $input.all()) {\n  let raw = item.json.output;\n  let score = null;\n  let decision = null;\n\n  if (typeof raw === 'string') {\n    let cleaned = raw.replace(/```json|```/g, '').trim();\n    const firstBrace = cleaned.indexOf('{');\n    const lastBrace = cleaned.lastIndexOf('}');\n\n    if (firstBrace !== -1 && lastBrace !== -1) {\n      try {\n        const jsonPart = cleaned.substring(firstBrace, lastBrace + 1);\n        const data = JSON.parse(jsonPart);\n        score = data.total_score;\n        decision = data.decision;\n      } catch (e) {\n        // fall through to text-based extraction below\n      }\n    }\n\n    if (score === null || decision === null) {\n      const scoreMatch = cleaned.match(/(?:Total Score|total_score)[:\\s]*\\**\\s*(\\d+)/i);\n      const decisionMatch = cleaned.match(/(?:Decision)[:\\s]*\\**\\s*(SHORTLISTED|DISQUALIFIED)/i);\n\n      score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;\n      decision = decisionMatch ? decisionMatch[1].toUpperCase() : 'DISQUALIFIED';\n    }\n  } else {\n    score = raw.total_score;\n    decision = raw.decision;\n  }\n\n  results.push({\n    json: { score, decision }\n  });\n}\n\nreturn results;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        800,
+        -48
+      ],
+      "id": "684ec10c-191a-4fb4-b698-1d28e7b476d5",
+      "name": "Parse Score & Decision"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ca0def9e-7141-4395-b035-67bfb409a69d",
+              "leftValue": "={{ $json.score }}",
+              "rightValue": 80,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1024,
+        -48
+      ],
+      "id": "1ce8d2be-e21b-4fbe-84c2-df7fdda66112",
+      "name": "Score >= 80 Check"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Application Received (Webhook)').item.json.body.email }}",
+        "subject": "Update  On your resume ",
+        "message": "=<p>Hi {{ $('Application Received (Webhook)').item.json.body.name }},</p>\n\n<p>Thank you for applying. We reviewed your resume and are happy to let you know that <b>you have been shortlisted</b> for the next stage.</p>\n\n<p>Our team will contact you shortly with the next steps.</p>\n\n<p>Best regards,<br>\nRecruitment Team</p>",
+        "options": {
+          "appendAttribution": true
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1248,
+        -144
+      ],
+      "id": "d5dfa788-ff7d-424e-88f0-5c2e2837ce61",
+      "name": "Send Shortlist Email",
+      "webhookId": "YOUR_WEBHOOK_ID",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "YOUR_CREDENTIAL_NAME"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Application Received (Webhook)').item.json.body.email }}",
+        "subject": "Update  On your resume ",
+        "message": "=<p>Hi {{ $('Application Received (Webhook)').item.json.body.name }},</p>\n\n<p>Thank you for your interest and for taking the time to apply. After reviewing your resume, we will not be moving forward with your application at this time.</p>\n\n<p>We appreciate your effort and encourage you to apply again for future openings that match your profile.</p>\n\n<p>Best regards,<br>\nRecruitment Team</p>",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1248,
+        48
+      ],
+      "id": "67f5b2b0-48ff-4b23-8166-0ba2ebdb1811",
+      "name": "Send Rejection Email",
+      "webhookId": "YOUR_WEBHOOK_ID",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "YOUR_CREDENTIAL_ID",
+          "name": "YOUR_CREDENTIAL_NAME"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Application Received (Webhook)": {
+      "main": [
+        [
+          {
+            "node": "Extract Resume Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Resume Text": {
+      "main": [
+        [
+          {
+            "node": "Resume Screening Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resume Screening Agent": {
+      "main": [
+        [
+          {
+            "node": "Parse Score & Decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LLM - OpenRouter": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Resume Screening Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Score & Decision": {
+      "main": [
+        [
+          {
+            "node": "Score >= 80 Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score >= 80 Check": {
+      "main": [
+        [
+          {
+            "node": "Send Shortlist Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Rejection Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "nodeGroups": [],
+  "tags": []
+}
