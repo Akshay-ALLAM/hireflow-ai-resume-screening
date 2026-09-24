@@ -36,22 +36,30 @@ It is useful for:
 | HR operations | Rejection and shortlist messages stay consistent |
 | Automation portfolios | Demonstrates webhook + file extract + AI agent + IF routing + Gmail |
 
-## Workflow Overview
-
-![n8n workflow canvas](screenshots/n8n-workflow-canvas.svg)
+## Architecture
 
 ```mermaid
 flowchart LR
     A[Application form] --> B[Webhook]
-    B --> C[Extract PDF text]
-    C --> D[OpenRouter AI agent]
-    D --> E[Parse score]
-    E --> F{Score >= 80?}
-    F -- Yes --> G[Gmail shortlist]
-    F -- No --> H[Gmail rejection]
+    B --> C[Extract resume PDF]
+    C --> D[Resume Screening Agent]
+    D --> E[OpenRouter LLM]
+    E --> D
+    D --> F[Parse score and decision]
+    F --> G{Score >= 80?}
+    G -- Yes --> H[Gmail shortlist]
+    G -- No --> I[Gmail rejection]
 ```
 
-## Public-Safe Architecture
+## Screenshots
+
+### n8n Workflow Canvas
+
+This is the live n8n canvas from the working automation.
+
+![n8n workflow canvas](screenshots/n8n-workflow-canvas.svg)
+
+### Public-Safe Architecture
 
 ![Public-safe architecture diagram](screenshots/public-safe-architecture.svg)
 
